@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>reveal.js - The HTML Presentation Framework</title>
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Norbert Sienkiewicz">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+
+    <!--[if lt IE 9]>
+      <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+            <h1>10Clouds</h1>
+            <h3>Webkomponenty</h3>
+            <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
+            <aside class="notes">
+                Nazywam się..
+                W 10Clouds pracuję od..
+                Opowiem Wam o webkomponentach.
+                Zatem, o co w nich chodzi?
+            </aside>
+        </section>
+
+        <section>
+            <h2>Webkomponent</h2>
+            <p>Czym jest webkomponent?</p>
+        </section>
+
+        <section>
+            <img width="400" height="540" src="/imgs/cpt-obvious.jpeg" alt="Captain Obvious">
+            <aside class="notes">
+                Słówko możemy rozbić na dwa pomniejsze:
+                Web oraz Komponent.
+                Słówko web pominę, zatem czym są komponenty?
+            </aside>
+        </section>
+
+        <section>
+          <h2>Czym jest komponent?</h2>
+          <p>
+            <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+                &ldquo;
+                Niezależnie wytworzony, skompilowany (z ukrytymi szczegółami
+                implementacyjnymi) moduł programowy, udostępniający swą
+                funkcjonalność za pomocą jednoznacznie zdefiniowanego interfejsu,
+                zdolny do współdziałania z większą całością (systemem) oraz innymi
+                komponentami.
+                &rdquo;
+            </q>
+          </p>
+          <p>
+              <small>
+                  <a href="http://pl.wikipedia.org/wiki/Komponent_%28informatyka%29">Wikipedia</a>
+              </small>
+          </p>
+            <aside class="notes">
+
+            </aside>
+        </section>
+
+        <section>
+            <h2>tldr?</h2>
+            <ul>
+                <li>Enkapsulacja (Shadom DOM)</li>
+                <li>Komunikacja interfejsem (Atrybuty)</li>
+                <li>Re-używalność (Custom Elements)</li>
+                <li>Black & white box</li>
+            </ul>
+            <aside class="notes">
+                Dlaczego black & white box?
+                W przypadku webkomponentów
+                <p>
+                    Osoby które nie są biegłe w wytwarzaniu oprogramowania
+                    mogą również wykorzystywać webkomponenty, nie analizując co
+                    się dzieje wewnątrz. Dobrym przykładem może być np API Googla,
+                    ale o tym później.
+                </p>
+                <p>
+                    Whitebox ponieważ możemy pobrać komponent i przeanalizować
+                    bądź poprawić jego zawartość pod własne potrzeby.
+                </p>
+            </aside>
+        </section>
+
+        <section>
+            <h2>Z czego składa się webkomponent?</h2>
+            <ul>
+                <li>Custom elements</li>
+                <li>Templates</li>
+                <li>Shadow DOM</li>
+                <li>HTML Imports</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Custom elements</h2>
+            <p>
+                <img width="100%" height="100%" src="/imgs/fb-divs-1.png" alt="fb-divs-hell">
+            </p>
+        </section>
+
+        <section>
+            <h2>Custom elements</h2>
+            <p>
+                <img width="100%" height="100%" src="/imgs/fb-divs-2.png" alt="fb-divs-hell">
+            </p>
+            <aside class="notes">
+                Te divy wziąłem prosto z news streamu facebookowego.
+                Jest trudno bez nieco dłuższej analizy dowiedzieć się czym są
+                te elementy. Jedyne co wiemy, to że mają wspólnego rodzica.
+
+                Ideą webkomponentów jest dodanie semantyki.
+
+                Zamieńmy powyższe sibling node'y na custom elementy.
+            </aside>
+        </section>
+
+        <section>
+            <h2>Custom elements</h2>
+            <p>
+                <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<news-stream referrer="substream_0_123456"></news-stream>
+<news-stream referrer="substream_0_123457"></news-stream>
+<news-stream referrer="substream_0_123458"></news-stream>
+<news-stream referrer="substream_0_123460"></news-stream>
+<news-stream referrer="substream_0_123465"></news-stream>
+<news-stream referrer="substream_0_123498"></news-stream>
+                </code></pre>
+            </p>
+            <aside class="notes">
+                Na powyższym przykładzie widzimy elementy HTMLowe, których
+                nazwę możemy zdefiniować w dowolny, wybrany przez nas sposób.
+            </aside>
+        </section>
+
+        <section>
+            <h2>Custom elements</h2>
+            <p>
+                Inside?
+                <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<news-stream referrer="substream_0_123456"
+             qid="6100827868714484530">
+    <news-header>
+        <img src="photo.jpg" alt="alt">
+        <p>John Doe</p> at <p>10Clouds</p>
+        <news-options>
+            <div>Dont want see this</div>
+            <div>Unfollow John Doe</div>
+        </news-options>
+    </news-header>
+    <news-content>OMFG OMFG SOO COOL IN HERE!</news-content>
+    <news-actions>
+        <button run-action="like">Like</button>
+        <button run-action="comment">Comment</button>
+        <button run-action="share">Share</button>
+    </news-actions>
+</news-stream>
+                </code></pre>
+            </p>
+            <aside class="notes">
+                Na powyższym przykładzie widzimy elementy HTMLowe, których
+                nazwę możemy zdefiniować w dowolny, wybrany przez nas sposób.
+                Webkomponenty mogą zawierać w sobie inne webkomponenty i
+                kooperować.
+            </aside>
+        </section>
+
+        <section>
+            <h2>Custom elements</h2>
+            <p>
+                <img height="100%" src="/imgs/lego-dude.png" alt="JS creation of customelement">
+            </p>
+            <aside class="notes">
+                Dlatego też często tworzenie rzeczy z webkomponentów jest
+                porównywane do budowania z lego - jeśli połączymy pasujące
+                ze sobą klocki, wszystko będzie się dobrze komunikować oraz
+                samoopisywać.
+            </aside>
+        </section>
+
+        <section>
+            <h2>Custom elements</h2>
+            <p>
+                JS?
+            </p>
+            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+var NewsStream = document.registerElement('news-stream');
+var pos = new NewsStream();
+document.body.appendChild(pos);
+            </code></pre>
+            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+document.registerElement('news-stream');
+var dom = document.createElement('news-stream');
+document.body.appendChild(dom);
+            </code></pre>
+            <aside class="notes">
+                Elementy możemy również tworzyć przy wykorzystaniu javascriptu.
+                Zarówno deklaratywnie jak i imperatywnie.
+            </aside>
+        </section>
+
+        <section>
+            <h2>Custom elements</h2>
+            <p>
+                Rozszerzanie obecnych elementów HTML:
+            </p>
+<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+    <button is="awesome"></button>
+</code></pre>
+            <aside class="notes">
+                Pozwala na zmodyfikowanie lub rozszerzenie sposobu działania
+                znacznika HTMLowego.
+
+                Taka deklaracja w JS pozwala nam na modyfikowanie działania
+                naszych awesome-buttonów.
+            </aside>
+        </section>
+
+        <section>
+            <h2>Custom elements</h2>
+            <p>
+                <img height="100%" src="/imgs/now_what.gif" alt="JS creation of customelement">
+            </p>
+        </section>
+
+        <section>
+            <h2>Custom elements</h2>
+            <p>
+<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+var proto = Object.create( HTMLElement.prototype );
+proto.createdCallback = function () {
+  this.innerHTML = 'Moc jest silna w Tobie';
+};
+var yodaDiv = document.registerElement( "yoda-elem", {
+    prototype: proto
+});
+</code></pre>
+            </p>
+        </section>
+
+        <section>
+            <h2>Custom elements</h2>
+            <p>
+                Lifecycle methods:
+            </p>
+            <ul>
+                <li>createdCallback</li>
+                <li>attachedCallback</li>
+                <li>detachedCallback</li>
+                <li>attributeChangedCallback(attrName, oldVal, newVal)</li>
+            </ul>
+            <aside class="notes">
+                created - moment stworzenia instancji,
+                attached - moment podłączenia instancji w dokumentem,
+                detached - moment odłączenia instacji z dokumentu,
+                attributeChangedCallback - atrybut został dodany/usunięty/zmieniony
+            </aside>
+        </section>
+
+        <section>
+            <h2>Templates</h2>
+            <p>
+                <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<div class="info" style="display: none;">
+    <p>Div którego spotkasz na stronie N razy.</p>
+    <img src="obrazek.png">
+</div>
+                </code></pre>
+            </p>
+
+            <aside class="notes">
+                Problemem tego rozwiązania jest sposób w jaki zinterpretuje to
+                przeglądarka. Mimo że div może nigdy nie zostać wyświetlony,
+                to przeglądarka pobierze wszystkie zasoby zadeklarowane wewnątrz
+                niewidocznego diva.
+            </aside>
+        </section>
+
+        <section>
+            <h2>Templates</h2>
+            <p>
+                JS?
+                <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<script type="text/template">
+    <div class="info" style="display: none;">
+        <p>Div którego spotkasz na stronie N razy.</p>
+        <img src="obrazek.png">
+    </div>
+</script>
+                </code></pre>
+            </p>
+
+            <aside class="notes">
+                Wcześniejszy problem został rozwiązany, ale pojawił się inny.
+                Skrypt zostanie przekonwerowany do DOM Elements przy użyciu
+                innerHTML.
+            </aside>
+        </section>
+
+        <section>
+            <h2>Templates</h2>
+
+            <p>
+                <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+                    &ldquo;
+                    Ponieważ nie ma publicznej specyfikacji dla tej własności,
+                    jej implementacje różnią się. Na przykład po wprowadzeniu
+                    tekstu do pola tekstowego, IE zmieni zawartość atrybutu
+                    value elementu INPUT w innerHTML, a przeglądarki oparte o
+                    Gecko - nie.
+                    &rdquo;
+                </q>
+            </p>
+            <p>
+              <small>
+                  <a href="https://developer.mozilla.org/pl/docs/DOM/element.innerHTML">MDN</a>
+              </small>
+            </p>
+        </section>
+
+        <section>
+          <h2>Templates</h2>
+          <p>
+              <ul>
+                <li>Skrypty nie zostaną wywołane</li>
+                <li>Resource'y nie zostaną pobrane</li>
+              </ul>
+          </p>
+          <p>
+              .. do czasu użycia szablonu.
+          </p>
+          <p>Wady? Template'y nie obsłużą znanych z frameworków bindingów.</p>
+        </section>
+
+        <section>
+          <h2>Templates</h2>
+            <p>
+                <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<template id="soo-reusable-div">
+    <style>(...)</style>
+    <div class="info" style="display: none;">
+        <p>Div którego spotkasz na stronie N razy.</p>
+        <img src="obrazek.png">
+    </div>
+</template>
+                </code></pre>
+          </p>
+        </section>
+
+        <section>
+          <h2>Templates</h2>
+            <p>
+                <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+var template = document.querySelector('#soo-reusable-div');
+var clone = document.importNode(template.content, true);
+document.body.appendChild(clone);
+                </code></pre>
+          </p>
+
+            <aside class="notes">
+                importNode służy do klonowania template node'a.
+                Parametr true pozwala na stworzenie deep copy, oznacza to:
+                - zawartość taga style zostanie powiązana z DOMem
+                - dołączone tagi script zostaną wykonane
+                - zostaną pobrane resource'y (obrazki, video)
+            </aside>
+        </section>
+
+        <section>
+          <h2>Shadow DOM</h2>
+            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<video src="./angelina.webm" controls></video>
+            </code></pre>
+        </section>
+
+        <section>
+          <h2>Shadow DOM</h2>
+            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+var host = document.createElement('div');
+var root = document.createElement('p');
+root.innerHTML = 'Hejho!';
+host.createShadowRoot().appendChild(root);
+document.body.appendChild(host);
+            </code></pre>
+        </section>
+
+        <section>
+          <h2>Shadow DOM</h2>
+            <p>
+                <img width="33%" height="33%" src="/imgs/shadow-root.png" alt="JS creation of customelement">
+            </p>
+            <aside class="notes">
+                Wygląd w przeglądarce. Można go włączyć w ustawieniach
+                chromowych devtoolsów.
+            </aside>
+        </section>
+
+        <section>
+          <h2>Shadow DOM</h2>
+            <p>Składa się z:</p>
+            <p>
+                <ul>
+                    <li>Shadow Host</li>
+                </ul>
+            </p>
+            <aside class="notes">
+                Shadow Host - element na którym wołamy createShadowRoot().
+                Jedyna część widoczna dla użytkownika, w której user
+                może zadeklarować potrzebne wnętrzene informacje.
+            </aside>
+        </section>
+
+        <section>
+          <h2>Shadow DOM</h2>
+            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<video>
+    <source src="/angelina.mp4" type="video/mp4">
+    <source src="/angelina.webm" type="video/webm">
+    <source src="/angelina.ogv" type="video/ogg">
+</video>
+            </code></pre>
+            <aside class="notes">
+                Tu - tag video jest shadow hostem, a źródła są zagnieżdżonym
+                w nim contentem tzw Insertion Pointem (niebawem do nich wrócimy).
+            </aside>
+        </section>
+
+        <section>
+          <h2>Shadow DOM</h2>
+            <p>
+                <ul>
+                    <li>Shadow Host</li>
+                    <li>Shadow Root</li>
+                </ul>
+            </p>
+            <aside class="notes">
+                Shadow Root - fragment dokumentu zwrócony przez
+                createShadowRoot(). Ten element, oraz wszystkie jego dzieci są
+                niewidoczne dla użytkownika, ale przeglądarka wyrenderuje
+                jego całą zawartość.
+            </aside>
+        </section>
+
+        <section>
+          <h2>Shadow DOM</h2>
+            <p>
+                <ul>
+                    <li>Shadow Host</li>
+                    <li>Shadow Root</li>
+                    <li>Shadow Boundary</li>
+                </ul>
+            </p>
+            <aside class="notes">
+                Shadow Boundary - każdy element wchodzący w skład shadow roota
+                jest schowany za tą barierą. Blokuje ona przed obustronnym
+                wyciekiem CSS oraz JS.
+
+                Przykład z nagłówkiem i font-sizem.
+            </aside>
+        </section>
+
+        <section>
+          <h2>Shadow DOM</h2>
+            <p>
+                <ul>
+                    <li>Shadow Host</li>
+                    <li>Shadow Root</li>
+                    <li>Shadow Boundary</li>
+                    <li>Insertion Points</li>
+                </ul>
+            </p>
+            <aside class="notes">
+                Jeśli chcemy przekazać dane od użytkownika do wewnątrz Shadow
+                Dom, musimy wykorzystać Insertion Points. Wewnątrz shadow domu
+                możemy odwoływać się do nich przez znacznik content.
+
+                #host ::content source, #slider ::content img
+            </aside>
+        </section>
+
+        <section>
+          <h2>Shadow DOM</h2>
+            <p>
+                <ul>
+                    <li>Shadow Host</li>
+                    <li>Shadow Root</li>
+                    <li>Shadow Boundary</li>
+                    <li>Insertion Points</li>
+                    <li>Events
+                        <small>
+                            Zatrzymany na boundary: abort, error, select,
+                            change, load, reset, resize, scroll, selectstart
+                        </small>
+                        <small>
+                            Pozostałe są retargetowane, tzn wyglądają tak, jakby
+                            zostały wywołane przez host.
+                        </small>
+                    </li>
+                </ul>
+            </p>
+        </section>
+
+        <section>
+          <h2>HTML Imports</h2>
+<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<link rel="import" href="wszystkie_pliki_do_ficzera.html">
+</code></pre>
+          <ul>
+            <li>Asynchroniczne</li>
+            <li>Ułatwia scaffold</li>
+            <li>Scieżka jest ładowana tylko raz</li>
+          </ul>
+            <aside class="notes">
+                Importy pozawalają zaciągać inne pliki htmlowe.
+                Mozilla wydała statement 15 grudnia, który głosi że:
+            </aside>
+        </section>
+
+        <section>
+          <h2>HTML Imports</h2>
+            <p>
+                <img height="100%" src="/imgs/mozilla-imports.png" alt="JS creation of customelement">
+            </p>
+            <aside class="notes">
+                Może powiększe
+            </aside>
+        </section>
+
+        <section>
+          <h2>HTML Imports</h2>
+            <p>
+                <img width="200%" height="200%" src="/imgs/mozilla-imports.png" alt="JS creation of customelement">
+            </p>
+            <aside class="notes">
+                ...zatem myślę że to wyczerpuje temat importów.
+            </aside>
+        </section>
+
+        <section>
+          <h2>Webcomponents ..</h2>
+            <p>
+                Ok, ale przecież już mieliśmy coś, co zachowuje się podobnie do
+                webcomponentów.
+            </p>
+        </section>
+
+        <section>
+          <h2>Webcomponents ..</h2>
+            <p>
+                IFRAME!
+            </p>
+        </section>
+
+        <section>
+          <h2>Webcomponents vs iFrame</h2>
+            <p>
+                <img width="50%" height="50%" src="/imgs/iframe-y-u.jpg" alt="JS creation of customelement">
+            </p>
+            <aside class="notes">
+                Tylko dlaczego, skoro nie niesie to żadnych benefitów, a same przeszkody?
+            </aside>
+        </section>
+
+        <section>
+          <h2>Webcomponents vs iFrame</h2>
+            <p>Różnice</p>
+            <ul>
+                <li>iframe jest kompletnym, oddzielnym dokumentem</li>
+                <li>dostęp do danych wewnątrz ramki jest niefajny (oddzielny kontekst, trudny dostęp do danych)</li>
+                <li>większa ilość tego samego komponentu na stronie = kilka iframeów o różnych urlach i danych</li>
+                <li>przy użyciu ramek - brak semantyki oraz spory overhead</li>
+            </ul>
+        </section>
+
+        <section>
+          <h2>Webcomponents a CSS</h2>
+            <ul>
+                <li>::shadow (x-foo::shadow h1)</li>
+                <li>/deep/ (x-foo /deep/ h1)</li>
+                <li>:host (:host)</li>
+                <li>:host-context (:host-context(.blocky))</li>
+                <li>::content (::content h1)</li>
+                <li>:unresolved</li>
+            </ul>
+            <aside class="notes">
+                Wszystkie selektory są dostępne w każdej przegląradce (chrome,
+                safari, mozilla, opera) oraz IE od wersji 10.
+
+                ::shadow - elementy na 1 poziomie zagnieżdżenia (gdzie
+                poziom zagnieżdżenia to poziom webkomponentocepcji)
+                /deep/ - elementy na dowolnym poziomie zagnieżdżenia
+                :host - zaznacza element hosta (element na którym wołamy
+                createShadowRoot(). Jedyna część widoczna dla użytkownika)
+                :host-context - zaznacza hosta matchując parent element hosta
+                ::content - zaznacza node'a wewnatrz komponentu
+                :unresolved - posiadają ją elementy zainicjowane, ale nie
+                zarejestrowane przy pomocy registerElement - ma słabe wsparcie.
+                Służy do FOUC (Flash of Unstyled Content.) prevention, czyli
+                wyświetlenia zasobu przez przeglądarkę przez załadowaniem
+                zewnętrznego CSS'a
+            </aside>
+        </section>
+
+        <section>
+          <h2>Przyklady</h2>
+            <img src="/imgs/body_ready.png">
+        </section>
+
+        <section>
+          <h2>Przyklady</h2>
+            <img src="/imgs/github-timeago.png">
+            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<time datetime="2015-01-05T17:18:57Z"
+    is="relative-time"
+    title="5 sty 2015, 18:18 CET">
+    22 minutes ago
+</time>
+            </code></pre>
+        </section>
+
+        <section>
+          <h2>Przyklady - github</h2>
+          <h5>https://github.com/github/time-elements</h5>
+            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+window.LocalTimeElement = document.registerElement('local-time', {
+    prototype: LocalTimePrototype,
+    'extends': 'time'
+  });
+            </code></pre>
+            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+ var LocalTimePrototype = Object.create(ExtendedTimePrototype);
+
+LocalTimePrototype.createdCallback = function() {
+    var value;
+    if (value = this.getAttribute('datetime')) this.attributeChangedCallback('datetime', null, value);
+    if (value = this.getAttribute('format')) this.attributeChangedCallback('format', null, value)
+};
+            </code></pre>
+            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+LocalTimePrototype.getFormattedDate = function() {
+    if (!this._date) return;
+
+    var date = formatDate(this) || '';
+    var time = formatTime(this) || '';
+    return (date + ' ' + time).trim();
+};
+            </code></pre>
+
+            <aside class="notes">
+                Github udostępnia swój webkomponent do użytku dla wszystkich.
+                W jego źródłach możemy zobaczyć dobry przykład rozszerzenia
+                funkcjonalności już istniejących HTML elementów.
+            </aside>
+        </section>
+
+        <section>
+          <h2>Przyklady</h2>
+            <img src="/imgs/more_more.jpg">
+        </section>
+
+        <section>
+          <h2>Przyklady</h2>
+            API?
+            <aside class="notes">
+                Google udostępnia poprzez webcomponenty swoje API do kilku
+                serwisów, np youtube, map, calendar, signin.
+            </aside>
+        </section>
+
+        <section>
+          <h2>Przyklady</h2>
+            <img src="/imgs/dafuq.png">
+        </section>
+
+        <section>
+          <h2>Przyklady</h2>
+            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<style>
+  google-map {
+    display: block;
+    height: 600px;
+  }
+</style>
+<google-map latitude="52.133580" longitude="21.024629"></google-map>
+            </code></pre>
+            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<google-map latitude="52.133580" longitude="21.024629" fitToMarkers>
+    <google-map-marker latitude="52.2343059" longitude="21.052118"
+      draggable="false" title="10Clouds HQ!"></google-map-marker>
+</google-map>
+            </code></pre>
+        </section>
+
+        <section>
+          <h2>Przyklady</h2>
+            <img src="/imgs/kim-approves.jpg">
+        </section>
+
+        <section>
+            <h2>Wsparcie</h2>
+            <h5>from: https://www.polymer-project.org/resources/compatibility.html</h5>
+            <img src="/imgs/support.png">
+            <aside class="notes">
+                (dane z 5.01)
+                Jak widzimy - używanie webcomponentów bez polifilów nie jest
+                zbyt dobrym pomysłem jeżeli targetujemy wszystkie przeglądarki.
+
+                Mimo kolorowej rzeczywistości przedstawionej przez team polymera
+                pamiętajmy, że shadow dom jest dość trudny do spolifilowania.
+
+
+                Jednak widać po np przykładzie zaprezentowanym z githuba -
+                webcomponenty są już obecne na stronach, których używamy.
+                Co mówi github w repo time elementu?
+            </aside>
+        </section>
+
+        <section data-markdown>
+            <script type="text/template">
+                ## Installation
+
+                Available on [Bower](http://bower.io) as **time-elements**.
+
+                ```
+                $ bower install time-elements
+                ```
+
+                This component is built on the upcoming [Web Component](http://webcomponents.org/) stack. Specifically, it requires a feature called [Custom Elements](http://www.html5rocks.com/en/tutorials/webcomponents/customelements/).
+
+                You will need to use a polyfill to get this feature today. Either the [Polymer](http://www.polymer-project.org/) or [X-Tag](http://www.x-tags.org/) frameworks supply a polyfill, or you can install the standalone [CustomElements](https://github.com/Polymer/CustomElements) polyfill.
+
+                <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/polymer/0.2.2/platform.js"></script>
+                </code></pre>
+            </script>
+        </section>
+
+         <section>
+            <h2>Nie-Polymer</h2>
+            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<template id="tpl-hello-world">
+    <div>Hello World</div>
+</template>
+<script>
+    var proto = Object.create(HTMLElement.prototype);
+    proto.createdCallback = function () {
+        var template = document.getElementById('tpl-hello-world');
+        var clone = document.importNode(template.content, true);
+        this.createShadowRoot().appendChild(clone);
+    };
+    HelloWorld = document.registerElement(
+        'hello-world',
+        { prototype : proto }
+    );
+</script>
+            </code></pre>
+            <aside class="notes">
+                Musicie przyznać, że całkiem dużo boilerplate'u.
+                Ale można prościej!
+            </aside>
+        </section>
+
+        <section>
+            <h2>Polymer</h2>
+            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<polymer-element name="hello-world">
+    <template>
+        <div>Hello world</div>
+    </template>
+    <script>
+        Polymer('hello-world',{});
+    </script>
+</polymer-element>
+            </code></pre>
+
+            <aside class="notes">
+                Używając polymera, możemy pisać mniej, a on wykona za nas,
+                pod spodem wszystkie potrzebne operacje.
+
+                Polymer jest aktualnie w wersji 0.6, niebawem powinien doczekać
+                się wersji 1.0.
+            </aside>
+        </section>
+
+        <section>
+          <h1>THE END</h1>
+          <h3>BY Norbert Sienkiewicz</h3>
+          <h5>@nsienkiewicz</h5>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
