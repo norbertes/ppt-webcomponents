@@ -27,6 +27,14 @@
     <!--[if lt IE 9]>
       <script src="lib/js/html5shiv.js"></script>
     <![endif]-->
+    <style>
+    .yoda{
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #fff;
+    }
+    </style>
   </head>
 
   <body>
@@ -38,26 +46,11 @@
         <section>
             <h1>10Clouds</h1>
             <h3>Webkomponenty</h3>
-            <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
             <aside class="notes">
                 Nazywam się..
                 W 10Clouds pracuję od..
                 Opowiem Wam o webkomponentach.
                 Zatem, o co w nich chodzi?
-            </aside>
-        </section>
-
-        <section>
-            <h2>Webkomponent</h2>
-            <p>Czym jest webkomponent?</p>
-        </section>
-
-        <section>
-            <img width="400" height="540" src="/imgs/cpt-obvious.jpeg" alt="Captain Obvious">
-            <aside class="notes">
-                Słówko możemy rozbić na dwa pomniejsze:
-                Web oraz Komponent.
-                Słówko web pominę, zatem czym są komponenty?
             </aside>
         </section>
 
@@ -85,31 +78,26 @@
         </section>
 
         <section>
-            <h2>tldr?</h2>
+            <h2>Webkomponent</h2>
             <ul>
                 <li>Enkapsulacja (Shadom DOM)</li>
                 <li>Komunikacja interfejsem (Atrybuty)</li>
                 <li>Re-używalność (Custom Elements)</li>
-                <li>Black & white box</li>
+                <li>Black box</li>
             </ul>
             <aside class="notes">
-                Dlaczego black & white box?
-                W przypadku webkomponentów
                 <p>
+                    Dlaczego blackbox? W przypadku webkomponentów
                     Osoby które nie są biegłe w wytwarzaniu oprogramowania
                     mogą również wykorzystywać webkomponenty, nie analizując co
                     się dzieje wewnątrz. Dobrym przykładem może być np API Googla,
                     ale o tym później.
                 </p>
-                <p>
-                    Whitebox ponieważ możemy pobrać komponent i przeanalizować
-                    bądź poprawić jego zawartość pod własne potrzeby.
-                </p>
             </aside>
         </section>
 
         <section>
-            <h2>Z czego składa się webkomponent?</h2>
+            <h2>Z czego sklada sie webkomponent?</h2>
             <ul>
                 <li>Custom elements</li>
                 <li>Templates</li>
@@ -162,7 +150,7 @@
         <section>
             <h2>Custom elements</h2>
             <p>
-                Inside?
+                Wewnatrz?
                 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 <news-stream referrer="substream_0_123456"
              qid="6100827868714484530">
@@ -211,34 +199,24 @@
             </p>
             <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 var NewsStream = document.registerElement('news-stream');
-var pos = new NewsStream();
-document.body.appendChild(pos);
+var instanceNews = new NewsStream();
+document.body.appendChild(instanceNews);
             </code></pre>
             <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 document.registerElement('news-stream');
-var dom = document.createElement('news-stream');
-document.body.appendChild(dom);
+var domNews = document.createElement('news-stream');
+document.body.appendChild(domNews);
             </code></pre>
             <aside class="notes">
                 Elementy możemy również tworzyć przy wykorzystaniu javascriptu.
+
                 Zarówno deklaratywnie jak i imperatywnie.
-            </aside>
-        </section>
 
-        <section>
-            <h2>Custom elements</h2>
-            <p>
-                Rozszerzanie obecnych elementów HTML:
-            </p>
-<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-    <button is="awesome"></button>
-</code></pre>
-            <aside class="notes">
-                Pozwala na zmodyfikowanie lub rozszerzenie sposobu działania
-                znacznika HTMLowego.
-
-                Taka deklaracja w JS pozwala nam na modyfikowanie działania
-                naszych awesome-buttonów.
+                Nazwa webcomponentu musi zawierać myślnik (dash). Jest to
+                działanie pozwalające na rozróżnienie custom elementów od
+                regularnych htmlowych elementów, jednocześnie zapewnia że
+                w przyszłości nie powstanie natywny element z taką samą nazwą
+                jak nasz custom element.
             </aside>
         </section>
 
@@ -252,16 +230,58 @@ document.body.appendChild(dom);
         <section>
             <h2>Custom elements</h2>
             <p>
+                Prototypowanie oraz rozszerzanie elementów
+            </p>
+<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+document.registerElement('news-stream', {
+  prototype: Object.create(HTMLElement.prototype)
+});
+</code></pre>
+<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<form is="ajax-form" method="post" url="(...)"></form>
+<script>
+    var ajaxForm = document.registerElement('ajax-form', {
+      prototype: Object.create(HTMLFormElement.prototype),
+      extends: 'form'
+    });
+</script>
+</code></pre>
+            <aside class="notes">
+                1) registerElement posiada dwa argumenty, pierwszy to nazwa
+                elementu, który tworzymy, drugim jest opcjonalny to prototyp,
+                pozwalający na rozszerzenie funkcjonalności.
+                Jeśli nie podamy 2giego argumentu, nasz customelement będzie
+                posiadać HTMLElement jako prototyp.
+
+                2) możemy również użyć dziedziczenia po szczególnym rodzaju
+                elementu HTML, dzięki temu możemy zmodyfikować, lub
+                rozszerzyć sposób działania standardowych znaczników.
+                Zeby utworzyć element rozszerzający element Form, nasz nowy
+                element musi również dziedziczyć prototyp tego elementu.
+            </aside>
+        </section>
+
+
+        <section>
+            <h2>Custom elements</h2>
+            <p>
+                Użycie callbacka
+            </p>
+            <p>
 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 var proto = Object.create( HTMLElement.prototype );
 proto.createdCallback = function () {
   this.innerHTML = 'Moc jest silna w Tobie';
+  this.className = 'yoda';
 };
-var yodaDiv = document.registerElement( "yoda-elem", {
+var yodaDiv = document.registerElement( 'yoda-elem', {
     prototype: proto
 });
 </code></pre>
             </p>
+            <aside class="notes">
+                Wytłumaczenie + demo
+            </aside>
         </section>
 
         <section>
@@ -288,7 +308,7 @@ var yodaDiv = document.registerElement( "yoda-elem", {
             <p>
                 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 <div class="info" style="display: none;">
-    <p>Div którego spotkasz na stronie N razy.</p>
+    <p>Div ktorego spotkasz na stronie N razy.</p>
     <img src="obrazek.png">
 </div>
                 </code></pre>
@@ -309,7 +329,7 @@ var yodaDiv = document.registerElement( "yoda-elem", {
                 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 <script type="text/template">
     <div class="info" style="display: none;">
-        <p>Div którego spotkasz na stronie N razy.</p>
+        <p>Div ktorego spotkasz na stronie N razy.</p>
         <img src="obrazek.png">
     </div>
 </script>
@@ -324,38 +344,17 @@ var yodaDiv = document.registerElement( "yoda-elem", {
         </section>
 
         <section>
-            <h2>Templates</h2>
-
-            <p>
-                <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-                    &ldquo;
-                    Ponieważ nie ma publicznej specyfikacji dla tej własności,
-                    jej implementacje różnią się. Na przykład po wprowadzeniu
-                    tekstu do pola tekstowego, IE zmieni zawartość atrybutu
-                    value elementu INPUT w innerHTML, a przeglądarki oparte o
-                    Gecko - nie.
-                    &rdquo;
-                </q>
-            </p>
-            <p>
-              <small>
-                  <a href="https://developer.mozilla.org/pl/docs/DOM/element.innerHTML">MDN</a>
-              </small>
-            </p>
-        </section>
-
-        <section>
           <h2>Templates</h2>
           <p>
               <ul>
                 <li>Skrypty nie zostaną wywołane</li>
                 <li>Resource'y nie zostaną pobrane</li>
+                <li>Nie jest wywoływany przez innerHTML</li>
               </ul>
           </p>
-          <p>
-              .. do czasu użycia szablonu.
-          </p>
-          <p>Wady? Template'y nie obsłużą znanych z frameworków bindingów.</p>
+          <aside class="notes">
+              Szablony są obojętne ... do czasu użycia szablonu.
+          </aside>
         </section>
 
         <section>
@@ -365,38 +364,25 @@ var yodaDiv = document.registerElement( "yoda-elem", {
 <template id="soo-reusable-div">
     <style>(...)</style>
     <div class="info" style="display: none;">
-        <p>Div którego spotkasz na stronie N razy.</p>
+        <p>Div ktorego spotkasz na stronie N razy.</p>
         <img src="obrazek.png">
     </div>
 </template>
                 </code></pre>
-          </p>
-        </section>
-
-        <section>
-          <h2>Templates</h2>
-            <p>
                 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 var template = document.querySelector('#soo-reusable-div');
 var clone = document.importNode(template.content, true);
 document.body.appendChild(clone);
                 </code></pre>
           </p>
-
             <aside class="notes">
                 importNode służy do klonowania template node'a.
-                Parametr true pozwala na stworzenie deep copy, oznacza to:
-                - zawartość taga style zostanie powiązana z DOMem
-                - dołączone tagi script zostaną wykonane
-                - zostaną pobrane resource'y (obrazki, video)
+                2gi argument oznacza deep copy, opcjonalny, default jest różny.
             </aside>
         </section>
 
         <section>
           <h2>Shadow DOM</h2>
-            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-<video src="./angelina.webm" controls></video>
-            </code></pre>
         </section>
 
         <section>
@@ -408,81 +394,36 @@ root.innerHTML = 'Hejho!';
 host.createShadowRoot().appendChild(root);
 document.body.appendChild(host);
             </code></pre>
-        </section>
-
-        <section>
-          <h2>Shadow DOM</h2>
-            <p>
-                <img width="33%" height="33%" src="/imgs/shadow-root.png" alt="JS creation of customelement">
-            </p>
-            <aside class="notes">
-                Wygląd w przeglądarce. Można go włączyć w ustawieniach
-                chromowych devtoolsów.
-            </aside>
-        </section>
-
-        <section>
-          <h2>Shadow DOM</h2>
-            <p>Składa się z:</p>
-            <p>
-                <ul>
-                    <li>Shadow Host</li>
-                </ul>
-            </p>
             <aside class="notes">
                 Shadow Host - element na którym wołamy createShadowRoot().
                 Jedyna część widoczna dla użytkownika, w której user
                 może zadeklarować potrzebne wnętrzene informacje.
-            </aside>
-        </section>
 
-        <section>
-          <h2>Shadow DOM</h2>
-            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-<video>
-    <source src="/angelina.mp4" type="video/mp4">
-    <source src="/angelina.webm" type="video/webm">
-    <source src="/angelina.ogv" type="video/ogg">
-</video>
-            </code></pre>
-            <aside class="notes">
-                Tu - tag video jest shadow hostem, a źródła są zagnieżdżonym
-                w nim contentem tzw Insertion Pointem (niebawem do nich wrócimy).
-            </aside>
-        </section>
-
-        <section>
-          <h2>Shadow DOM</h2>
-            <p>
-                <ul>
-                    <li>Shadow Host</li>
-                    <li>Shadow Root</li>
-                </ul>
-            </p>
-            <aside class="notes">
                 Shadow Root - fragment dokumentu zwrócony przez
                 createShadowRoot(). Ten element, oraz wszystkie jego dzieci są
                 niewidoczne dla użytkownika, ale przeglądarka wyrenderuje
                 jego całą zawartość.
+
+                Shadow Boundary - każdy element wchodzący w skład shadow roota
+                jest schowany za tą barierą. Blokuje ona przed obustronnym
+                wyciekiem CSS oraz JS.
             </aside>
         </section>
 
         <section>
           <h2>Shadow DOM</h2>
-            <p>
-                <ul>
-                    <li>Shadow Host</li>
-                    <li>Shadow Root</li>
-                    <li>Shadow Boundary</li>
-                </ul>
-            </p>
-            <aside class="notes">
-                Shadow Boundary - każdy element wchodzący w skład shadow roota
-                jest schowany za tą barierą. Blokuje ona przed obustronnym
-                wyciekiem CSS oraz JS.
-
-                Przykład z nagłówkiem i font-sizem.
-            </aside>
+<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+var shadowStyles = '.yoda{color: pink;position: absolute;top: 0;right: 0;}';
+var proto = Object.create( HTMLElement.prototype );
+proto.createdCallback = function () {
+  var shadow = this.createShadowRoot();
+  shadow.innerHTML = '<style>' + shadowStyles + '</style>
+                     <div class="yoda">Moc jest silna w Tobie</div>';
+};
+var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
+    prototype: proto
+});
+</code></pre>
         </section>
 
         <section>
@@ -506,24 +447,102 @@ document.body.appendChild(host);
 
         <section>
           <h2>Shadow DOM</h2>
+            <p>Insertion Points</p>
+            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<video width="640" height="320" controls>
+    <source src="funny_cats.mp4" type="video/mp4">
+    <source src="funny_cats.webm" type="video/webm">
+    <source src="funny_cats.ogv" type="video/ogg">
+    Za każdym razem gdy ktoś widzi ten komunikat ginie 1 panda. Nie używaj IE8.
+</video>
+            </code></pre>
+        </section>
+
+        <section>
+          <h2>Shadow DOM</h2>
+            <p>Insertion Points</p>
+<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<div id="news">
+    <content select="img"></content>
+    <content select="article"></content>
+</div>
+</code></pre>
+<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+:host{
+    width: 90%;
+    margin: 0 5%;
+}
+#slider ::content img{
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+}
+#slider ::content article{
+    padding: 1em;
+    font-size: 1.25em;
+}
+</code></pre>
+            <aside class="notes">
+                Jeśli chcemy przekazać dane od użytkownika do wewnątrz Shadow
+                Dom, musimy wykorzystać Insertion Points. Wewnątrz shadow domu
+                możemy odwoływać się do nich przez znacznik content.
+            </aside>
+        </section>
+
+        <section>
+          <h2>Shadow DOM</h2>
             <p>
                 <ul>
                     <li>Shadow Host</li>
                     <li>Shadow Root</li>
                     <li>Shadow Boundary</li>
                     <li>Insertion Points</li>
-                    <li>Events
+                    <li>Events</li>
+                    <p>
                         <small>
                             Zatrzymany na boundary: abort, error, select,
                             change, load, reset, resize, scroll, selectstart
-                        </small>
-                        <small>
+                        <br>
                             Pozostałe są retargetowane, tzn wyglądają tak, jakby
                             zostały wywołane przez host.
                         </small>
-                    </li>
+                    </p>
                 </ul>
             </p>
+        </section>
+
+        <section>
+          <h2>Shadow DOM</h2>
+          <p>CSS</p>
+            <ul>
+                <li>::shadow (nazwa-componentu::shadow h1)</li>
+                <li>/deep/ (nazwa-componentu /deep/ h1)</li>
+                <li>:host (:host)</li>
+                <li>:host-context (:host-context(.parent-class))</li>
+                <li>::content (::content h1)</li>
+                <li>:unresolved</li>
+            </ul>
+            <aside class="notes">
+                Wszystkie selektory są dostępne w każdej przegląradce (chrome,
+                safari, mozilla, opera) oraz IE od wersji 10.
+
+                ::shadow - elementy na 1 poziomie zagnieżdżenia (gdzie
+                poziom zagnieżdżenia to poziom webkomponentocepcji)
+                /deep/ - elementy na dowolnym poziomie zagnieżdżenia
+                :host - zaznacza element hosta (element na którym wołamy
+                createShadowRoot(). Jedyna część widoczna dla użytkownika)
+                :host-context - zaznacza hosta matchując parent element hosta
+                ::content - zaznacza node'a wewnatrz komponentu
+                :unresolved - posiadają ją elementy zainicjowane, ale nie
+                zarejestrowane przy pomocy registerElement - ma słabe wsparcie.
+                Służy do FOUC (Flash of Unstyled Content.) prevention, czyli
+                wyświetlenia zasobu przez przeglądarkę przez załadowaniem
+                zewnętrznego CSS'a
+            </aside>
+        </section>
+
+        <section>
+          <h2>HTML Imports</h2>
         </section>
 
         <section>
@@ -599,35 +618,6 @@ document.body.appendChild(host);
         </section>
 
         <section>
-          <h2>Webcomponents a CSS</h2>
-            <ul>
-                <li>::shadow (x-foo::shadow h1)</li>
-                <li>/deep/ (x-foo /deep/ h1)</li>
-                <li>:host (:host)</li>
-                <li>:host-context (:host-context(.blocky))</li>
-                <li>::content (::content h1)</li>
-                <li>:unresolved</li>
-            </ul>
-            <aside class="notes">
-                Wszystkie selektory są dostępne w każdej przegląradce (chrome,
-                safari, mozilla, opera) oraz IE od wersji 10.
-
-                ::shadow - elementy na 1 poziomie zagnieżdżenia (gdzie
-                poziom zagnieżdżenia to poziom webkomponentocepcji)
-                /deep/ - elementy na dowolnym poziomie zagnieżdżenia
-                :host - zaznacza element hosta (element na którym wołamy
-                createShadowRoot(). Jedyna część widoczna dla użytkownika)
-                :host-context - zaznacza hosta matchując parent element hosta
-                ::content - zaznacza node'a wewnatrz komponentu
-                :unresolved - posiadają ją elementy zainicjowane, ale nie
-                zarejestrowane przy pomocy registerElement - ma słabe wsparcie.
-                Służy do FOUC (Flash of Unstyled Content.) prevention, czyli
-                wyświetlenia zasobu przez przeglądarkę przez załadowaniem
-                zewnętrznego CSS'a
-            </aside>
-        </section>
-
-        <section>
           <h2>Przyklady</h2>
             <img src="/imgs/body_ready.png">
         </section>
@@ -637,9 +627,9 @@ document.body.appendChild(host);
             <img src="/imgs/github-timeago.png">
             <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 <time datetime="2015-01-05T17:18:57Z"
-    is="relative-time"
-    title="5 sty 2015, 18:18 CET">
-    22 minutes ago
+        is="relative-time"
+        title="5 sty 2015, 18:18 CET">
+        22 minutes ago
 </time>
             </code></pre>
         </section>
@@ -648,27 +638,29 @@ document.body.appendChild(host);
           <h2>Przyklady - github</h2>
           <h5>https://github.com/github/time-elements</h5>
             <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-window.LocalTimeElement = document.registerElement('local-time', {
-    prototype: LocalTimePrototype,
+window.RelativeTimeElement = document.registerElement('relative-time', {
+    prototype: RelativeTimePrototype,
     'extends': 'time'
-  });
+});
+
             </code></pre>
             <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
- var LocalTimePrototype = Object.create(ExtendedTimePrototype);
+// Internal: Install a timer to refresh all attached relative-time elements every
+// minute.
+function updateNowElements() {
+    var time, i, len;
+    for (i = 0, len = nowElements.length; i < len; i++) {
+      time = nowElements[i];
+      time.textContent = time.getFormattedDate();
+    }
+}
 
-LocalTimePrototype.createdCallback = function() {
-    var value;
-    if (value = this.getAttribute('datetime')) this.attributeChangedCallback('datetime', null, value);
-    if (value = this.getAttribute('format')) this.attributeChangedCallback('format', null, value)
-};
             </code></pre>
             <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-LocalTimePrototype.getFormattedDate = function() {
-    if (!this._date) return;
-
-    var date = formatDate(this) || '';
-    var time = formatTime(this) || '';
-    return (date + ' ' + time).trim();
+RelativeTimePrototype.getFormattedDate = function() {
+    if (this._date) {
+      return new RelativeTime(this._date).toString();
+    }
 };
             </code></pre>
 
@@ -691,11 +683,6 @@ LocalTimePrototype.getFormattedDate = function() {
                 Google udostępnia poprzez webcomponenty swoje API do kilku
                 serwisów, np youtube, map, calendar, signin.
             </aside>
-        </section>
-
-        <section>
-          <h2>Przyklady</h2>
-            <img src="/imgs/dafuq.png">
         </section>
 
         <section>
