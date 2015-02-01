@@ -45,7 +45,7 @@
       <div class="slides">
         <section>
             <h1>10Clouds</h1>
-            <h3>Webkomponenty</h3>
+            <h3>Webcomponents</h3>
             <aside class="notes">
                 Nazywam się..
                 W 10Clouds pracuję od..
@@ -78,11 +78,11 @@
         </section>
 
         <section>
-            <h2>Webkomponent</h2>
+            <h2>Webcomponent</h2>
             <ul>
-                <li>Enkapsulacja (Shadom DOM)</li>
-                <li>Komunikacja interfejsem (Atrybuty)</li>
-                <li>Re-używalność (Custom Elements)</li>
+                <li>Encapsulation (Shadow DOM)</li>
+                <li>Interface communicating (Attributes)</li>
+                <li>Re-usability (Custom Elements)</li>
                 <li>Black box</li>
             </ul>
             <aside class="notes">
@@ -97,7 +97,7 @@
         </section>
 
         <section>
-            <h2>Z czego sklada sie webkomponent?</h2>
+            <h2>Parts of webcomponent:</h2>
             <ul>
                 <li>Custom elements</li>
                 <li>Templates</li>
@@ -230,7 +230,7 @@ document.body.appendChild(domNews);
         <section>
             <h2>Custom elements</h2>
             <p>
-                Prototypowanie oraz rozszerzanie elementów
+                Prototyping & extendind elements
             </p>
 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 document.registerElement('news-stream', {
@@ -265,13 +265,13 @@ document.registerElement('news-stream', {
         <section>
             <h2>Custom elements</h2>
             <p>
-                Użycie callbacka
+                Usage of callback
             </p>
             <p>
 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 var proto = Object.create( HTMLElement.prototype );
 proto.createdCallback = function () {
-  this.innerHTML = 'Moc jest silna w Tobie';
+  this.innerHTML = 'Force is strong with you';
   this.className = 'yoda';
 };
 var yodaDiv = document.registerElement( 'yoda-elem', {
@@ -308,7 +308,7 @@ var yodaDiv = document.registerElement( 'yoda-elem', {
             <p>
                 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 <div class="info" style="display: none;">
-    <p>Div ktorego spotkasz na stronie N razy.</p>
+    <p>Div which you will meet N times</p>
     <img src="obrazek.png">
 </div>
                 </code></pre>
@@ -329,7 +329,7 @@ var yodaDiv = document.registerElement( 'yoda-elem', {
                 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 <script type="text/template">
     <div class="info" style="display: none;">
-        <p>Div ktorego spotkasz na stronie N razy.</p>
+        <p>Div which you will meet N times</p>
         <img src="obrazek.png">
     </div>
 </script>
@@ -347,10 +347,10 @@ var yodaDiv = document.registerElement( 'yoda-elem', {
           <h2>Templates</h2>
           <p>
               <ul>
-                <li>Skrypty nie zostaną wywołane</li>
-                <li>Resource'y nie zostaną pobrane</li>
-                <li>Obojętny</li>
-                <li>Nie jest wywoływany przez innerHTML</li>
+                <li>Scripts won't be executed</li>
+                <li>Resources won't be downloaded</li>
+                <li>Neutral</li>
+                <li>Is not called by innerHTML</li>
               </ul>
           </p>
           <aside class="notes">
@@ -365,7 +365,7 @@ var yodaDiv = document.registerElement( 'yoda-elem', {
 <template id="soo-reusable-div">
     <style>(...)</style>
     <div class="info" style="display: none;">
-        <p>Div ktorego spotkasz na stronie N razy.</p>
+        <p>Div which you will meet N times</p>
         <img src="obrazek.png">
     </div>
 </template>
@@ -391,7 +391,7 @@ document.body.appendChild(clone);
             <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 var host = document.createElement('div');
 var root = document.createElement('p');
-root.innerHTML = 'Hejho!';
+root.innerHTML = 'Heeeeya!';
 host.createShadowRoot().appendChild(root);
 document.body.appendChild(host);
             </code></pre>
@@ -419,7 +419,7 @@ var proto = Object.create( HTMLElement.prototype );
 proto.createdCallback = function () {
   var shadow = this.createShadowRoot();
   shadow.innerHTML = '<style>' + shadowStyles + '</style>
-                     <div class="yoda">Moc jest silna w Tobie</div>';
+                     <div class="yoda">Force is strong with you</div>';
 };
 var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
     prototype: proto
@@ -501,11 +501,11 @@ var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
                     <li>Events</li>
                     <p>
                         <small>
-                            Zatrzymany na boundary: abort, error, select,
+                            Stopped on boundary: abort, error, select,
                             change, load, reset, resize, scroll, selectstart
                         <br>
-                            Pozostałe są retargetowane, tzn wyglądają tak, jakby
-                            zostały wywołane przez host.
+                            Rest is retargeted, they look like they were
+                            executed by host.
                         </small>
                     </p>
                 </ul>
@@ -516,8 +516,8 @@ var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
           <h2>Shadow DOM</h2>
           <p>CSS</p>
             <ul>
-                <li>::shadow (nazwa-componentu::shadow h1)</li>
-                <li>/deep/ (nazwa-componentu /deep/ h1)</li>
+                <li>::shadow (components-name::shadow h1)</li>
+                <li>/deep/ (components-name /deep/ h1)</li>
                 <li>:host (:host)</li>
                 <li>:host-context (:host-context(.parent-class))</li>
                 <li>::content (::content h1)</li>
@@ -552,9 +552,9 @@ var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
 <link rel="import" href="wszystkie_pliki_do_ficzera.html">
 </code></pre>
           <ul>
-            <li>Asynchroniczne</li>
-            <li>Ułatwia scaffold</li>
-            <li>Scieżka jest ładowana tylko raz</li>
+            <li>Async</li>
+            <li>Easy scaffold</li>
+            <li>Path is loaded just once</li>
           </ul>
             <aside class="notes">
                 Importy pozawalają zaciągać inne pliki htmlowe.
@@ -585,8 +585,7 @@ var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
         <section>
           <h2>Webcomponents ..</h2>
             <p>
-                Ok, ale przecież już mieliśmy coś, co zachowuje się podobnie do
-                webcomponentów.
+                Ok, but we had something which behaves similar to webcomponents...
             </p>
         </section>
 
@@ -609,12 +608,12 @@ var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
 
         <section>
           <h2>Webcomponents vs iFrame</h2>
-            <p>Różnice</p>
+            <p>Diffrences</p>
             <ul>
-                <li>iframe jest kompletnym, oddzielnym dokumentem</li>
-                <li>dostęp do danych wewnątrz ramki jest niefajny (oddzielny kontekst, trudny dostęp do danych)</li>
-                <li>większa ilość tego samego komponentu na stronie = kilka iframeów o różnych urlach i danych</li>
-                <li>przy użyciu ramek - brak semantyki oraz spory overhead</li>
+                <li>iframe is standalone, new document</li>
+                <li>access to data inside iframe is not soo nice (another context, difficult access to data)</li>
+                <li>more amount of particular component = few iframes with diffrent urls and data</li>
+                <li>iframes gives us no semantic and huge overhead</li>
             </ul>
         </section>
 
@@ -673,7 +672,7 @@ RelativeTimePrototype.getFormattedDate = function() {
         </section>
 
         <section>
-          <h2>Przyklady</h2>
+          <h2>Examples</h2>
             API?
             <aside class="notes">
                 Google udostępnia poprzez webcomponenty swoje API do kilku
@@ -682,7 +681,7 @@ RelativeTimePrototype.getFormattedDate = function() {
         </section>
 
         <section>
-          <h2>Przyklady</h2>
+          <h2>Examples</h2>
             <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 <style>
   google-map {
@@ -701,12 +700,12 @@ RelativeTimePrototype.getFormattedDate = function() {
         </section>
 
         <section>
-          <h2>Przyklady</h2>
+          <h2>Examples</h2>
             <img src="/imgs/kim-approves.jpg">
         </section>
 
         <section>
-            <h2>Wsparcie</h2>
+            <h2>Compability</h2>
             <h5>from: https://www.polymer-project.org/resources/compatibility.html</h5>
             <img src="/imgs/support.png">
             <aside class="notes">
@@ -745,7 +744,7 @@ RelativeTimePrototype.getFormattedDate = function() {
         </section>
 
          <section>
-            <h2>Nie-Polymer</h2>
+            <h2>No-Polymer</h2>
             <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 <template id="tpl-hello-world">
     <div>Hello World</div>
