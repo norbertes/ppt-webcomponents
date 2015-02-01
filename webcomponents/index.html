@@ -230,7 +230,7 @@ document.body.appendChild(domNews);
         <section>
             <h2>Custom elements</h2>
             <p>
-                Prototyping & extendind elements
+                Prototyping & extending elements
             </p>
 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 document.registerElement('news-stream', {
@@ -305,6 +305,9 @@ var yodaDiv = document.registerElement( 'yoda-elem', {
 
         <section>
             <h2>Templates</h2>
+        </section>
+        <section>
+            <h2>Templates</h2>
             <p>
                 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 <div class="info" style="display: none;">
@@ -330,7 +333,7 @@ var yodaDiv = document.registerElement( 'yoda-elem', {
 <script type="text/template">
     <div class="info" style="display: none;">
         <p>Div which you will meet N times</p>
-        <img src="obrazek.png">
+        <img src="image.png">
     </div>
 </script>
                 </code></pre>
@@ -366,7 +369,7 @@ var yodaDiv = document.registerElement( 'yoda-elem', {
     <style>(...)</style>
     <div class="info" style="display: none;">
         <p>Div which you will meet N times</p>
-        <img src="obrazek.png">
+        <img src="image.png">
     </div>
 </template>
                 </code></pre>
@@ -398,7 +401,7 @@ document.body.appendChild(host);
             <aside class="notes">
                 Shadow Host - element na którym wołamy createShadowRoot().
                 Jedyna część widoczna dla użytkownika, w której user
-                może zadeklarować potrzebne wnętrzene informacje.
+                może zadeklarować potrzebne wewnętrzene informacje.
 
                 Shadow Root - fragment dokumentu zwrócony przez
                 createShadowRoot(). Ten element, oraz wszystkie jego dzieci są
@@ -414,7 +417,7 @@ document.body.appendChild(host);
         <section>
           <h2>Shadow DOM</h2>
 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-var shadowStyles = '.yoda{color: pink;position: absolute;top: 0;right: 0;}';
+var shadowStyles = '.yoda{background: pink;color:blue;position: absolute;top: 0;right: 0;}';
 var proto = Object.create( HTMLElement.prototype );
 proto.createdCallback = function () {
   var shadow = this.createShadowRoot();
@@ -454,7 +457,7 @@ var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
     <source src="funny_cats.mp4" type="video/mp4">
     <source src="funny_cats.webm" type="video/webm">
     <source src="funny_cats.ogv" type="video/ogg">
-    Za każdym razem gdy ktoś widzi ten komunikat ginie 1 panda. Nie używaj IE8.
+    When someone sees this text one panda dies. Just don't use IE8.
 </video>
             </code></pre>
         </section>
@@ -463,10 +466,16 @@ var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
           <h2>Shadow DOM</h2>
             <p>Insertion Points</p>
 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-<div id="news">
+<div class="news">
+    <img src="pix.png" alt="pix">
+    <article>Whaaazuuuup?!</article>
+</div>
+</code></pre>
+<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<template id="news">
     <content select="img"></content>
     <content select="article"></content>
-</div>
+</template>
 </code></pre>
 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 :host{
@@ -516,8 +525,8 @@ var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
           <h2>Shadow DOM</h2>
           <p>CSS</p>
             <ul>
-                <li>::shadow (components-name::shadow h1)</li>
-                <li>/deep/ (components-name /deep/ h1)</li>
+                <li>::shadow (component-name::shadow h1)</li>
+                <li>/deep/ (component-name /deep/ h1)</li>
                 <li>:host (:host)</li>
                 <li>:host-context (:host-context(.parent-class))</li>
                 <li>::content (::content h1)</li>
@@ -549,7 +558,7 @@ var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
         <section>
           <h2>HTML Imports</h2>
 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-<link rel="import" href="wszystkie_pliki_do_ficzera.html">
+<link rel="import" href="file_with_all_feature_files.html">
 </code></pre>
           <ul>
             <li>Async</li>
@@ -618,12 +627,12 @@ var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
         </section>
 
         <section>
-          <h2>Przyklady</h2>
+          <h2>Examples</h2>
             <img src="/imgs/body_ready.png">
         </section>
 
         <section>
-          <h2>Przyklady</h2>
+          <h2>Examples</h2>
             <img src="/imgs/github-timeago.png">
             <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 <time datetime="2015-01-05T17:18:57Z"
@@ -635,7 +644,7 @@ var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
         </section>
 
         <section>
-          <h2>Przyklady - github</h2>
+          <h2>Examples - github</h2>
           <h5>https://github.com/github/time-elements</h5>
             <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 window.RelativeTimeElement = document.registerElement('relative-time', {
