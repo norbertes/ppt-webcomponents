@@ -133,12 +133,12 @@
             <h2>Custom elements</h2>
             <p>
                 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-<news-stream referrer="substream_0_123456"></news-stream>
-<news-stream referrer="substream_0_123457"></news-stream>
-<news-stream referrer="substream_0_123458"></news-stream>
-<news-stream referrer="substream_0_123460"></news-stream>
-<news-stream referrer="substream_0_123465"></news-stream>
-<news-stream referrer="substream_0_123498"></news-stream>
+<stream-tile referrer="substream_0_123456"></stream-tile>
+<stream-tile referrer="substream_0_123457"></stream-tile>
+<stream-tile referrer="substream_0_123458"></stream-tile>
+<stream-tile referrer="substream_0_123460"></stream-tile>
+<stream-tile referrer="substream_0_123465"></stream-tile>
+<stream-tile referrer="substream_0_123498"></stream-tile>
                 </code></pre>
             </p>
             <aside class="notes">
@@ -152,23 +152,24 @@
             <p>
                 Wewnatrz?
                 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-<news-stream referrer="substream_0_123456"
+<stream-tile referrer="substream_0_123456"
              qid="6100827868714484530">
-    <news-header>
+    <tile-header>
         <img src="photo.jpg" alt="alt">
         <p>John Doe</p> at <p>10Clouds</p>
-        <news-options>
+        <tile-options>
             <div>Dont want see this</div>
             <div>Unfollow John Doe</div>
-        </news-options>
-    </news-header>
-    <news-content>OMFG OMFG SOO COOL IN HERE!</news-content>
-    <news-actions>
+        </tile-options>
+    </tile-header>
+    <tile-content>OMFG OMFG SOO COOL IN HERE!</tile-content>
+    <tile-actions>
         <button run-action="like">Like</button>
         <button run-action="comment">Comment</button>
         <button run-action="share">Share</button>
-    </news-actions>
-</news-stream>
+    </tile-actions>
+    <tile-comment-list></tile-comment-list>
+</stream-tile>
                 </code></pre>
             </p>
             <aside class="notes">
@@ -418,14 +419,14 @@ document.body.appendChild(host);
           <h2>Shadow DOM</h2>
 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 var shadowStyles = '.yoda{background: pink;color:blue;position: absolute;top: 0;right: 0;}';
-var proto = Object.create( HTMLElement.prototype );
-proto.createdCallback = function () {
+var shadowProto = Object.create( HTMLElement.prototype );
+shadowProto.createdCallback = function () {
   var shadow = this.createShadowRoot();
-  shadow.innerHTML = '<style>' + shadowStyles + '</style>
-                     <div class="yoda">Force is strong with you</div>';
+  shadow.innerHTML = '<style>' + shadowStyles + '</style>' +
+                     '<div class="yoda">Force is strong with you</div>';
 };
 var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
-    prototype: proto
+    prototype: shadowProto
 });
 </code></pre>
         </section>
@@ -468,7 +469,7 @@ var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
 <div class="news">
     <img src="pix.png" alt="pix">
-    <article>Whaaazuuuup?!</article>
+    <article>Dummy ipsum content</article>
 </div>
 </code></pre>
 <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
@@ -482,12 +483,12 @@ var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
     width: 90%;
     margin: 0 5%;
 }
-#slider ::content img{
+#news ::content img{
     width: 100%;
     padding-bottom: 56.25%; /* 16:9 */
     height: 0;
 }
-#slider ::content article{
+#news ::content article{
     padding: 1em;
     font-size: 1.25em;
 }
@@ -780,13 +781,10 @@ RelativeTimePrototype.getFormattedDate = function() {
         <section>
             <h2>Polymer</h2>
             <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-<polymer-element name="hello-world">
+<polymer-element name="hello-world" noscript>
     <template>
         <div>Hello world</div>
     </template>
-    <script>
-        Polymer('hello-world',{});
-    </script>
 </polymer-element>
             </code></pre>
 
