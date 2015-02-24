@@ -14,6 +14,17 @@
     <!-- For syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
 
+    <style>
+    pre .coffeescript .javascript,
+    pre .javascript .xml,
+    pre .tex .formula,
+    pre .xml .javascript,
+    pre .xml .vbscript,
+    pre .xml .css,
+    pre .xml .cdata{
+        opacity: 1;
+    }
+    </style>
     <script>
       if( window.location.search.match( /print-pdf/gi ) ) {
         var link = document.createElement( 'link' );
@@ -55,33 +66,25 @@
         </section>
 
         <section>
-          <h2>Czym jest komponent?</h2>
-          <p>
-            <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-                &ldquo;
-                Niezależnie wytworzony, skompilowany (z ukrytymi szczegółami
-                implementacyjnymi) moduł programowy, udostępniający swą
-                funkcjonalność za pomocą jednoznacznie zdefiniowanego interfejsu,
-                zdolny do współdziałania z większą całością (systemem) oraz innymi
-                komponentami.
-                &rdquo;
-            </q>
-          </p>
-          <p>
-              <small>
-                  <a href="http://pl.wikipedia.org/wiki/Komponent_%28informatyka%29">Wikipedia</a>
-              </small>
-          </p>
+            <h2>WebComponent's specs:</h2>
+            <ul>
+                <li>Custom elements</li>
+                <li>Templates</li>
+                <li>Shadow DOM</li>
+                <li>HTML Imports</li>
+            </ul>
             <aside class="notes">
-
+                <p>
+                    4 Specyfikacje składają się na WC
+                </p>
             </aside>
         </section>
 
         <section>
-            <h2>Webcomponent</h2>
+            <h2>WebComponent</h2>
             <ul>
                 <li>Encapsulation (Shadow DOM)</li>
-                <li>Interface communicating (Attributes)</li>
+                <li>Interface communicating (Attrs, Params)</li>
                 <li>Re-usability (Custom Elements)</li>
                 <li>Black box</li>
             </ul>
@@ -96,15 +99,6 @@
             </aside>
         </section>
 
-        <section>
-            <h2>Parts of webcomponent:</h2>
-            <ul>
-                <li>Custom elements</li>
-                <li>Templates</li>
-                <li>Shadow DOM</li>
-                <li>HTML Imports</li>
-            </ul>
-        </section>
 
         <section>
             <h2>Custom elements</h2>
@@ -132,7 +126,7 @@
         <section>
             <h2>Custom elements</h2>
             <p>
-                <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+                <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 <stream-tile referrer="substream_0_123456"></stream-tile>
 <stream-tile referrer="substream_0_123457"></stream-tile>
 <stream-tile referrer="substream_0_123458"></stream-tile>
@@ -151,7 +145,7 @@
             <h2>Custom elements</h2>
             <p>
                 Wewnatrz?
-                <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+                <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 <stream-tile referrer="substream_0_123456"
              qid="6100827868714484530">
     <tile-header>
@@ -198,26 +192,19 @@
             <p>
                 JS?
             </p>
-            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+            <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 var NewsStream = document.registerElement('news-stream');
 var instanceNews = new NewsStream();
 document.body.appendChild(instanceNews);
             </code></pre>
-            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+            <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 document.registerElement('news-stream');
 var domNews = document.createElement('news-stream');
 document.body.appendChild(domNews);
             </code></pre>
             <aside class="notes">
-                Elementy możemy również tworzyć przy wykorzystaniu javascriptu.
-
-                Zarówno deklaratywnie jak i imperatywnie.
-
-                Nazwa webcomponentu musi zawierać myślnik (dash). Jest to
-                działanie pozwalające na rozróżnienie custom elementów od
-                regularnych htmlowych elementów, jednocześnie zapewnia że
-                w przyszłości nie powstanie natywny element z taką samą nazwą
-                jak nasz custom element.
+                Deklaratywnie jak i imperatywnie.
+                Myślnik (dash).
             </aside>
         </section>
 
@@ -231,57 +218,29 @@ document.body.appendChild(domNews);
         <section>
             <h2>Custom elements</h2>
             <p>
-                Prototyping & extending elements
+                Prototyping
             </p>
-<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<pre><code data-trim style="font-size: 22px; margin-top: 20px;">
+    <news-stream></news-stream>
+</code></pre>
+<pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 document.registerElement('news-stream', {
   prototype: Object.create(HTMLElement.prototype)
 });
 </code></pre>
-<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-<form is="ajax-form" method="post" url="(...)"></form>
-<script>
-    var ajaxForm = document.registerElement('ajax-form', {
-      prototype: Object.create(HTMLFormElement.prototype),
-      extends: 'form'
-    });
-</script>
+<p>Extending elements</p>
+<pre><code data-trim style="font-size: 22px; margin-top: 20px;">
+    <form is="ajax-form" method="post" url="(...)"></form>
 </code></pre>
-            <aside class="notes">
-                1) registerElement posiada dwa argumenty, pierwszy to nazwa
-                elementu, który tworzymy, drugim jest opcjonalny to prototyp,
-                pozwalający na rozszerzenie funkcjonalności.
-                Jeśli nie podamy 2giego argumentu, nasz customelement będzie
-                posiadać HTMLElement jako prototyp.
-
-                2) możemy również użyć dziedziczenia po szczególnym rodzaju
-                elementu HTML, dzięki temu możemy zmodyfikować, lub
-                rozszerzyć sposób działania standardowych znaczników.
-                Zeby utworzyć element rozszerzający element Form, nasz nowy
-                element musi również dziedziczyć prototyp tego elementu.
-            </aside>
-        </section>
-
-
-        <section>
-            <h2>Custom elements</h2>
-            <p>
-                Usage of callback
-            </p>
-            <p>
-<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-var proto = Object.create( HTMLElement.prototype );
-proto.createdCallback = function () {
-  this.innerHTML = 'Force is strong with you';
-  this.className = 'yoda';
-};
-var yodaDiv = document.registerElement( 'yoda-elem', {
-    prototype: proto
+<pre><code data-trim style="font-size: 22px; margin-top: 20px;">
+document.registerElement('ajax-form', {
+    prototype: Object.create(HTMLFormElement.prototype),
+    extends: 'form'
 });
 </code></pre>
-            </p>
             <aside class="notes">
-                Wytłumaczenie + demo
+                1) registerElement
+                2) rozszerzenie sposóbu działania standardowych znaczników.
             </aside>
         </section>
 
@@ -297,20 +256,40 @@ var yodaDiv = document.registerElement( 'yoda-elem', {
                 <li>attributeChangedCallback(attrName, oldVal, newVal)</li>
             </ul>
             <aside class="notes">
-                created - moment stworzenia instancji,
-                attached - moment podłączenia instancji w dokumentem,
-                detached - moment odłączenia instacji z dokumentu,
-                attributeChangedCallback - atrybut został dodany/usunięty/zmieniony
+                Wywoływanie kodu w odpowiednim momencie lifecycle
+            </aside>
+        </section>
+
+        <section>
+            <h2>Custom elements</h2>
+            <p>
+                Usage of callback
+            </p>
+            <p>
+<pre><code data-trim style="font-size: 22px; margin-top: 20px;">
+var proto = Object.create( HTMLElement.prototype );
+proto.createdCallback = function () {
+  this.innerHTML = 'Force is strong with you';
+  this.className = 'yoda';
+};
+var yodaDiv = document.registerElement('yoda-elem', {
+    prototype: proto
+});
+</code></pre>
+            </p>
+            <aside class="notes">
+                Demo
             </aside>
         </section>
 
         <section>
             <h2>Templates</h2>
         </section>
+
         <section>
             <h2>Templates</h2>
             <p>
-                <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+                <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 <div class="info" style="display: none;">
     <p>Div which you will meet N times</p>
     <img src="obrazek.png">
@@ -319,9 +298,7 @@ var yodaDiv = document.registerElement( 'yoda-elem', {
             </p>
 
             <aside class="notes">
-                Problemem tego rozwiązania jest sposób w jaki zinterpretuje to
-                przeglądarka. Mimo że div może nigdy nie zostać wyświetlony,
-                to przeglądarka pobierze wszystkie zasoby zadeklarowane wewnątrz
+                Przeglądarka pobierze wszystkie zasoby zadeklarowane wewnątrz
                 niewidocznego diva.
             </aside>
         </section>
@@ -330,7 +307,7 @@ var yodaDiv = document.registerElement( 'yoda-elem', {
             <h2>Templates</h2>
             <p>
                 JS?
-                <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+                <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 <script type="text/template">
     <div class="info" style="display: none;">
         <p>Div which you will meet N times</p>
@@ -342,7 +319,6 @@ var yodaDiv = document.registerElement( 'yoda-elem', {
 
             <aside class="notes">
                 Wcześniejszy problem został rozwiązany, ale pojawił się inny.
-                Skrypt zostanie przekonwerowany do DOM Elements przy użyciu
                 innerHTML.
             </aside>
         </section>
@@ -365,7 +341,7 @@ var yodaDiv = document.registerElement( 'yoda-elem', {
         <section>
           <h2>Templates</h2>
             <p>
-                <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+                <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 <template id="soo-reusable-div">
     <style>(...)</style>
     <div class="info" style="display: none;">
@@ -374,7 +350,7 @@ var yodaDiv = document.registerElement( 'yoda-elem', {
     </div>
 </template>
                 </code></pre>
-                <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+                <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 var template = document.querySelector('#soo-reusable-div');
 var clone = document.importNode(template.content, true);
 document.body.appendChild(clone);
@@ -392,7 +368,19 @@ document.body.appendChild(clone);
 
         <section>
           <h2>Shadow DOM</h2>
-            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+            <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
+<video width="640" height="320" controls>
+    <source src="funny_cats.mp4" type="video/mp4">
+    <source src="funny_cats.webm" type="video/webm">
+    <source src="funny_cats.ogv" type="video/ogg">
+    When someone sees this text one panda dies. Just don't use IE8.
+</video>
+            </code></pre>
+        </section>
+
+        <section>
+          <h2>Shadow DOM</h2>
+            <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 var host = document.createElement('div');
 var root = document.createElement('p');
 root.innerHTML = 'Heeeeya!';
@@ -417,15 +405,19 @@ document.body.appendChild(host);
 
         <section>
           <h2>Shadow DOM</h2>
-<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-var shadowStyles = '.yoda{background: pink;color:blue;position: absolute;top: 0;right: 0;}';
-var shadowProto = Object.create( HTMLElement.prototype );
+<pre><code data-trim style="font-size: 22px; margin-top: 20px;">
+var shadowProto;
+var shadowStyles = '.yoda{background: pink; color: blue;
+                            position: absolute; top: 0; right: 0;}';
+
+shadowProto = Object.create( HTMLElement.prototype );
 shadowProto.createdCallback = function () {
   var shadow = this.createShadowRoot();
   shadow.innerHTML = '<style>' + shadowStyles + '</style>' +
                      '<div class="yoda">Force is strong with you</div>';
 };
-var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
+
+var yodaDivShadow = document.registerElement('yoda-elem-shadow', {
     prototype: shadowProto
 });
 </code></pre>
@@ -453,46 +445,19 @@ var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
         <section>
           <h2>Shadow DOM</h2>
             <p>Insertion Points</p>
-            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-<video width="640" height="320" controls>
-    <source src="funny_cats.mp4" type="video/mp4">
-    <source src="funny_cats.webm" type="video/webm">
-    <source src="funny_cats.ogv" type="video/ogg">
-    When someone sees this text one panda dies. Just don't use IE8.
-</video>
-            </code></pre>
-        </section>
-
-        <section>
-          <h2>Shadow DOM</h2>
-            <p>Insertion Points</p>
-<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-<div class="news">
+<pre><code data-trim style="font-size: 22px; margin-top: 20px;">
+<news-stream>
     <img src="pix.png" alt="pix">
     <article>Dummy ipsum content</article>
-</div>
+</news-stream>
 </code></pre>
-<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-<template id="news">
+<pre><code data-trim style="font-size: 22px; margin-top: 20px;">
+<template id="news-stream">
     <content select="img"></content>
     <content select="article"></content>
 </template>
 </code></pre>
-<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-:host{
-    width: 90%;
-    margin: 0 5%;
-}
-#news ::content img{
-    width: 100%;
-    padding-bottom: 56.25%; /* 16:9 */
-    height: 0;
-}
-#news ::content article{
-    padding: 1em;
-    font-size: 1.25em;
-}
-</code></pre>
+<p>img & article will be viewed inside appropriate content select tag</p>
             <aside class="notes">
                 Jeśli chcemy przekazać dane od użytkownika do wewnątrz Shadow
                 Dom, musimy wykorzystać Insertion Points. Wewnątrz shadow domu
@@ -553,12 +518,37 @@ var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
         </section>
 
         <section>
+          <h2>Shadow DOM</h2>
+          <p>CSS</p>
+    <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
+<template id="news-stream">
+    <content select="img"></content>
+    <content select="article"></content>
+</template>
+</code></pre>
+<pre><code data-trim style="font-size: 22px; margin-top: 20px;">
+:host{
+    width: 90%;
+    margin: 0 5%;
+}
+#news-stream ::content img{
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+}
+#news-stream ::content article{
+    padding: 1em;
+    font-size: 1.25em;
+}
+</code></pre>
+        </section>
+        <section>
           <h2>HTML Imports</h2>
         </section>
 
         <section>
           <h2>HTML Imports</h2>
-<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 <link rel="import" href="file_with_all_feature_files.html">
 </code></pre>
           <ul>
@@ -635,26 +625,26 @@ var yodaDivShadow = document.registerElement( 'yoda-elem-shadow', {
         <section>
           <h2>Examples</h2>
             <img src="/imgs/github-timeago.png">
-            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 <time datetime="2015-01-05T17:18:57Z"
         is="relative-time"
         title="5 sty 2015, 18:18 CET">
         22 minutes ago
 </time>
-            </code></pre>
+</code></pre>
         </section>
 
         <section>
           <h2>Examples - github</h2>
           <h5>https://github.com/github/time-elements</h5>
-            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+            <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 window.RelativeTimeElement = document.registerElement('relative-time', {
     prototype: RelativeTimePrototype,
     'extends': 'time'
 });
 
             </code></pre>
-            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+            <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 // Internal: Install a timer to refresh all attached relative-time elements every
 // minute.
 function updateNowElements() {
@@ -666,7 +656,7 @@ function updateNowElements() {
 }
 
             </code></pre>
-            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+            <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 RelativeTimePrototype.getFormattedDate = function() {
     if (this._date) {
       return new RelativeTime(this._date).toString();
@@ -692,7 +682,7 @@ RelativeTimePrototype.getFormattedDate = function() {
 
         <section>
           <h2>Examples</h2>
-            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+            <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 <style>
   google-map {
     display: block;
@@ -701,7 +691,7 @@ RelativeTimePrototype.getFormattedDate = function() {
 </style>
 <google-map latitude="52.133580" longitude="21.024629"></google-map>
             </code></pre>
-            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+            <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 <google-map latitude="52.133580" longitude="21.024629" fitToMarkers>
     <google-map-marker latitude="52.2343059" longitude="21.052118"
       draggable="false" title="10Clouds HQ!"></google-map-marker>
@@ -747,7 +737,7 @@ RelativeTimePrototype.getFormattedDate = function() {
 
                 You will need to use a polyfill to get this feature today. Either the [Polymer](http://www.polymer-project.org/) or [X-Tag](http://www.x-tags.org/) frameworks supply a polyfill, or you can install the standalone [CustomElements](https://github.com/Polymer/CustomElements) polyfill.
 
-                <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+                <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/polymer/0.2.2/platform.js"></script>
                 </code></pre>
             </script>
@@ -755,7 +745,7 @@ RelativeTimePrototype.getFormattedDate = function() {
 
          <section>
             <h2>No-Polymer</h2>
-            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+            <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 <template id="tpl-hello-world">
     <div>Hello World</div>
 </template>
@@ -780,7 +770,7 @@ RelativeTimePrototype.getFormattedDate = function() {
 
         <section>
             <h2>Polymer</h2>
-            <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+            <pre><code data-trim style="font-size: 22px; margin-top: 20px;">
 <polymer-element name="hello-world" noscript>
     <template>
         <div>Hello world</div>
